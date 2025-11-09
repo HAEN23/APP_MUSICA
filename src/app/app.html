@@ -1,0 +1,59 @@
+<div class="music-app">
+  
+  <!-- VISTA DE BÚSQUEDA (Pantalla completa diferente) -->
+  <div *ngIf="showSearchBar" class="search-view">
+    <app-search (closeSearch)="hideSearchBar()"></app-search>
+  </div>
+
+  <!-- VISTA PRINCIPAL CON ROUTING -->
+  <div *ngIf="!showSearchBar" class="main-view">
+    <header class="app-header">
+      <div class="header-content">
+        <!-- Navegación izquierda -->
+        <div class="nav-section">
+          <h1>{{ title }}</h1>
+          <nav class="main-nav">
+            <a 
+              routerLink="/home" 
+              class="nav-btn home-btn" 
+              routerLinkActive="active"
+              (mouseenter)="onNavHover('home')"
+              title="Descubre nueva música">
+              <i class="fa-solid fa-home"></i>
+              <span>Inicio</span>
+            </a>
+            <a 
+              routerLink="/playlist" 
+              class="nav-btn playlist-btn" 
+              routerLinkActive="active"
+              (mouseenter)="onNavHover('playlist')"
+              title="Tu colección personal">
+              <i class="fa-solid fa-list-music"></i>
+              <span>Mi Playlist</span>
+            </a>
+            <a 
+              routerLink="/search" 
+              class="nav-btn search-btn" 
+              routerLinkActive="active"
+              (mouseenter)="onNavHover('search')"
+              title="Buscar música">
+              <i class="fa-solid fa-search"></i>
+              <span>Buscar</span>
+            </a>
+          </nav>
+        </div>
+        
+        <!-- Barra de búsqueda derecha -->
+        <div class="header-search">
+          <app-search-bar (searchResults)="onSearchResults($event)"></app-search-bar>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contenido principal con Router Outlet -->
+    <main class="app-main">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+  
+</div>
