@@ -12,7 +12,7 @@ describe('SearchItems', () => {
   let mockSpotifyService: jasmine.SpyObj<SpotifyService>;
 
   beforeEach(async () => {
-    // Crear mocks de los servicios
+   
     mockActivatedRoute = jasmine.createSpyObj('ActivatedRoute', ['queryParams'], {
       queryParams: of({ q: 'test search' })
     });
