@@ -1,0 +1,148 @@
+<div class="album-detail-container">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Cargando álbum...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="errorMessage" class="error-container">
+    <p class="error-message">{{ errorMessage }}</p>
+    <button (click)="loadAlbumData()" class="retry-btn">Reintentar</button>
+  </div>
+
+  <!-- Album Detail Content -->
+  <div *ngIf="!isLoading && !errorMessage && album" class="album-content">
+    
+    <!-- Album Header -->
+    <div class="album-header">
+      <div class="album-cover">
+        <img [src]="album.images?.[0]?.url || '/assets/default-album.png'" 
+             [alt]="album.name" 
+             class="album-image">
+      </div>
+      
+      <div class="album-info">
+        <p class="album-type">{{ album.album_type | titlecase }}</p>
+        <h1 class="album-title">{{ album.name }}</h1>
+        
+        <div class="album-metadata">
+          <div class="artist-info">
+            <img [src]="album.artists?.[0]?.images?.[0]?.url || '/assets/default-artist.png'" 
+                 [alt]="album.artists?.[0]?.name" 
+                 class="artist-avatar"
+                 (click)="goToArtist(album.artists?.[0]?.id)">
+            
+            <span class="artist-name" 
+                  (click)="goToArtist(album.artists?.[0]?.id)">
+              {{ album.artists?.[0]?.name }}
+            </span>
+          </div>
+          
+          <div class="album-details">
+            <span>• {{ getReleaseYear(album.release_date) }}</span>
+            <span *ngIf="tracks.length > 0">• {{ tracks.length }} canciones</span>
+            <span>• {{ getTotalDuration() }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Playback Controls -->
+    <div class="controls-section">
+      <div class="main-controls">
+        <button class="play-album-btn" 
+                (click)="playAlbum()" 
+                [class.playing]="isPlaying">
+          <i class="icon-play">{{ isPlaying ? '⏸️' : '▶️' }}</i>
+        </button>
+        
+        <button class="like-btn" 
+                (click)="toggleLike()" 
+                title="Agregar a biblioteca">
+          <i class="icon-heart">♡</i>
+        </button>
+        
+        <button class="options-btn" title="Más opciones">
+          <i class="icon-options">⋮</i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tracks List -->
+    <div class="tracks-section">
+      <div class="tracks-header">
+        <div class="track-number">#</div>
+        <div class="track-title">Título</div>
+        <div class="track-duration">
+          <i class="icon-clock">🕐</i>
+        </div>
+      </div>
+      
+      <div class="tracks-divider"></div>
+      
+      <div *ngIf="tracks.length === 0" class="no-tracks">
+        <p>No se encontraron canciones en este álbum</p>
+      </div>
+      
+      <div *ngIf="tracks.length > 0" class="tracks-list">
+        <div *ngFor="let track of tracks; let i = index" 
+             class="track-item"
+             [class.current-track]="isCurrentTrack(track)"
+             [class.playing]="isCurrentTrack(track) && isPlaying"
+             (click)="playTrack(track, i)">
+          
+          <div class="track-number-cell">
+            <span class="track-number" *ngIf="!isCurrentTrack(track) || !isPlaying">{{ i + 1 }}</span>
+            <div class="playing-animation" *ngIf="isCurrentTrack(track) && isPlaying">
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+            </div>
+          </div>
+          
+          <div class="track-info">
+            <h4 class="track-name" [class.current]="isCurrentTrack(track)">{{ track.name }}</h4>
+            <p class="track-artists">
+              <span *ngFor="let artist of track.artists; let isLast = last" 
+                    class="artist-link"
+                    (click)="goToArtist(artist.id); $event.stopPropagation()">
+                {{ artist.name }}<span *ngIf="!isLast">, </span>
+              </span>
+            </p>
+          </div>
+          
+          <div class="track-actions">
+            <button class="track-like-btn" 
+                    (click)="$event.stopPropagation()" 
+                    title="Agregar a Me gusta">
+              <i class="icon-heart">♡</i>
+            </button>
+            
+            <span class="track-duration">{{ formatDuration(track.duration_ms) }}</span>
+            
+            <button class="track-options-btn" 
+                    (click)="$event.stopPropagation()" 
+                    title="Más opciones">
+              <i class="icon-options">⋮</i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Album Info Footer -->
+    <div class="album-footer">
+      <div class="copyright">
+        <p class="release-date">{{ formatReleaseDate(album.release_date) }}</p>
+        <div class="copyrights" *ngIf="album.copyrights?.length > 0">
+          <p *ngFor="let copyright of album.copyrights" class="copyright-text">
+            {{ copyright.text }}
+          </p>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>

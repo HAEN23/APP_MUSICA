@@ -176,6 +176,7 @@
   -webkit-line-clamp: 1;
   line-clamp: 1;
   -webkit-box-orient: vertical;
+  transition: color 0.3s ease;
 }
 
 .album-tracks,
@@ -183,6 +184,37 @@
   color: #888;
   font-size: 0.75rem;
   font-weight: 500;
+}
+
+/* ==============================================
+   ELEMENTOS CLICKEABLES PARA NAVEGACIÓN
+   ============================================== */
+
+.clickable {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.album-title.clickable:hover {
+  color: #1db954 !important;
+  text-decoration: underline;
+  transform: translateY(-1px);
+}
+
+.album-artist.clickable:hover {
+  color: #ffffff !important;
+  text-decoration: underline;
+  transform: translateY(-1px);
+}
+
+.album-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.album-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 /* ==============================================

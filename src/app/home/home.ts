@@ -1,4 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MusicPlayerService } from '../services/music-player.service';
 import { SpotifyService } from '../services/spotify.service';
 
@@ -11,6 +12,7 @@ import { SpotifyService } from '../services/spotify.service';
 export class Home implements OnInit {
   private musicService = inject(MusicPlayerService);
   private spotifyService = inject(SpotifyService);
+  private router = inject(Router);
 
   // Álbumes populares organizados por categorías
   featuredAlbums: any[] = [];
@@ -49,6 +51,7 @@ export class Home implements OnInit {
             id: track.album.id,
             name: track.album.name,
             artist: track.artists?.[0]?.name || 'Artista Desconocido',
+            artistId: track.artists?.[0]?.id,
             image: track.album.images?.[0]?.url || track.album.images?.[1]?.url,
             releaseDate: track.album.release_date,
             totalTracks: track.album.total_tracks,
@@ -137,5 +140,33 @@ export class Home implements OnInit {
   playAlbum(album: any): void {
     console.log('🎵 Reproduciendo álbum:', album.name);
     // Aquí podrías implementar la reproducción del álbum completo
+  }
+
+  // Navegar al álbum
+  goToAlbum(album: any, event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    if (album.id) {
+      console.log('💿 Navegando al álbum:', album.name);
+      this.router.navigate(['/album', album.id]);
+    }
+  }
+
+  // Navegar al artista (necesitaremos el artistId)
+  goToArtist(artistId: string, artistName: string, event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    if (artistId) {
+      console.log('🎤 Navegando al artista:', artistName);
+      this.router.navigate(['/artist', artistId]);
+    }
+  }
+
+  // Método para hacer click en la tarjeta del álbum
+  onAlbumCardClick(album: any): void {
+    // Por defecto, navegar al álbum
+    this.goToAlbum(album);
   }
 }

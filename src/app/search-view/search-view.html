@@ -57,20 +57,20 @@
 
         <!-- Información de la canción -->
         <div class="result-track-info">
-          <div class="track-image">
+          <div class="track-image" (click)="goToAlbum(track.album?.id)" title="Ver álbum">
             <img 
               [src]="track.album?.images?.[0]?.url || 'https://via.placeholder.com/40x40/1db954/ffffff?text=♪'" 
               [alt]="track.name" />
           </div>
           <div class="track-details">
-            <span class="track-name">{{ track.name }}</span>
-            <span class="track-artist">{{ track.artists?.[0]?.name }}</span>
+            <span class="track-name" (click)="goToAlbum(track.album?.id)" title="Ver álbum">{{ track.name }}</span>
+            <span class="track-artist" (click)="goToArtist(track.artists?.[0]?.id)" title="Ver artista">{{ track.artists?.[0]?.name }}</span>
           </div>
         </div>
 
         <!-- Álbum -->
         <div class="result-album">
-          <span>{{ track.album?.name }}</span>
+          <span class="album-link" (click)="goToAlbum(track.album?.id)" title="Ver álbum">{{ track.album?.name }}</span>
         </div>
 
         <!-- Duración -->

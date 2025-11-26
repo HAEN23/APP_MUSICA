@@ -28,18 +28,20 @@
       <div 
         class="album-card" 
         *ngFor="let album of featuredAlbums"
-        (click)="playAlbum(album)">
+        (click)="onAlbumCardClick(album)">
         <div class="album-image">
           <img [src]="album.image" [alt]="album.name" />
           <div class="play-overlay">
-            <button class="play-btn-large">
+            <button class="play-btn-large" (click)="playAlbum(album); $event.stopPropagation()">
               <i class="fa-solid fa-play"></i>
             </button>
           </div>
         </div>
         <div class="album-info">
-          <h4 class="album-title">{{ album.name }}</h4>
-          <p class="album-artist">{{ album.artist }}</p>
+          <h4 class="album-title clickable" (click)="goToAlbum(album, $event)" title="Ver álbum">{{ album.name }}</h4>
+          <p class="album-artist clickable" 
+             (click)="goToArtist(album.artistId, album.artist, $event)" 
+             title="Ver artista">{{ album.artist }}</p>
           <span class="album-tracks">{{ album.totalTracks }} canciones</span>
         </div>
       </div>
@@ -56,18 +58,20 @@
       <div 
         class="album-card" 
         *ngFor="let album of newReleases"
-        (click)="playAlbum(album)">
+        (click)="onAlbumCardClick(album)">
         <div class="album-image">
           <img [src]="album.image" [alt]="album.name" />
           <div class="play-overlay">
-            <button class="play-btn-large">
+            <button class="play-btn-large" (click)="playAlbum(album); $event.stopPropagation()">
               <i class="fa-solid fa-play"></i>
             </button>
           </div>
         </div>
         <div class="album-info">
-          <h4 class="album-title">{{ album.name }}</h4>
-          <p class="album-artist">{{ album.artist }}</p>
+          <h4 class="album-title clickable" (click)="goToAlbum(album, $event)" title="Ver álbum">{{ album.name }}</h4>
+          <p class="album-artist clickable" 
+             (click)="goToArtist(album.artistId, album.artist, $event)" 
+             title="Ver artista">{{ album.artist }}</p>
           <span class="album-year">{{ album.releaseDate }}</span>
         </div>
       </div>
@@ -84,18 +88,20 @@
       <div 
         class="album-card" 
         *ngFor="let album of popularAlbums"
-        (click)="playAlbum(album)">
+        (click)="onAlbumCardClick(album)">
         <div class="album-image">
           <img [src]="album.image" [alt]="album.name" />
           <div class="play-overlay">
-            <button class="play-btn-large">
+            <button class="play-btn-large" (click)="playAlbum(album); $event.stopPropagation()">
               <i class="fa-solid fa-play"></i>
             </button>
           </div>
         </div>
         <div class="album-info">
-          <h4 class="album-title">{{ album.name }}</h4>
-          <p class="album-artist">{{ album.artist }}</p>
+          <h4 class="album-title clickable" (click)="goToAlbum(album, $event)" title="Ver álbum">{{ album.name }}</h4>
+          <p class="album-artist clickable" 
+             (click)="goToArtist(album.artistId, album.artist, $event)" 
+             title="Ver artista">{{ album.artist }}</p>
           <span class="album-tracks">{{ album.totalTracks }} tracks</span>
         </div>
       </div>

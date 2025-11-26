@@ -35,6 +35,22 @@ export class SearchView {
     this.router.navigate(['/home']);
   }
 
+  // Navegar al perfil del artista
+  goToArtist(artistId: string): void {
+    if (artistId) {
+      console.log('🎤 Navegando al artista:', artistId);
+      this.router.navigate(['/artist', artistId]);
+    }
+  }
+
+  // Navegar al álbum cuando se hace clic en una canción
+  goToAlbum(albumId: string): void {
+    if (albumId) {
+      console.log('💿 Navegando al álbum:', albumId);
+      this.router.navigate(['/album', albumId]);
+    }
+  }
+
   // Obtener información del reproductor actual
   get currentSong() {
     return this.musicService.currentSong();

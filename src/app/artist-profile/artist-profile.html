@@ -1,0 +1,123 @@
+<div class="artist-profile-container">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Cargando perfil del artista...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="errorMessage" class="error-container">
+    <p class="error-message">{{ errorMessage }}</p>
+    <button (click)="loadArtistData()" class="retry-btn">Reintentar</button>
+  </div>
+
+  <!-- Artist Profile Content -->
+  <div *ngIf="!isLoading && !errorMessage && artist" class="profile-content">
+    
+    <!-- Artist Header -->
+    <div class="artist-header">
+      <div class="artist-image">
+        <img [src]="artist.images?.[0]?.url || '/assets/default-artist.png'" 
+             [alt]="artist.name" 
+             class="artist-photo">
+      </div>
+      
+      <div class="artist-info">
+        <p class="artist-type">Artista</p>
+        <h1 class="artist-name">{{ artist.name }}</h1>
+        <div class="artist-stats">
+          <span class="followers">{{ formatFollowers(artist.followers?.total || 0) }} seguidores</span>
+          <span class="genres" *ngIf="artist.genres?.length > 0">
+            • {{ artist.genres.slice(0, 3).join(', ') }}
+          </span>
+        </div>
+        <button class="follow-btn">Seguir</button>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="content-tabs">
+      <div class="tab-buttons">
+        <button class="tab-btn active">Canciones populares</button>
+        <button class="tab-btn">Álbumes</button>
+      </div>
+    </div>
+
+    <!-- Top Tracks Section -->
+    <div class="top-tracks-section">
+      <h2>Canciones populares</h2>
+      
+      <div *ngIf="topTracks.length === 0" class="no-tracks">
+        <p>No se encontraron canciones populares</p>
+      </div>
+      
+      <div *ngIf="topTracks.length > 0" class="tracks-list">
+        <div *ngFor="let track of topTracks.slice(0, 10); let i = index" 
+             class="track-item" 
+             (click)="playTrack(track)">
+          
+          <div class="track-index">{{ i + 1 }}</div>
+          
+          <div class="track-info">
+            <img [src]="track.album?.images?.[2]?.url || '/assets/default-album.png'" 
+                 [alt]="track.album?.name" 
+                 class="track-image"
+                 (click)="goToAlbum(track.album?.id); $event.stopPropagation()">
+            
+            <div class="track-details">
+              <h4 class="track-name">{{ track.name }}</h4>
+              <p class="track-album" 
+                 (click)="goToAlbum(track.album?.id); $event.stopPropagation()">
+                {{ track.album?.name }}
+              </p>
+            </div>
+          </div>
+          
+          <div class="track-actions">
+            <button class="like-btn" title="Agregar a Me gusta">
+              <i class="icon-heart">♡</i>
+            </button>
+            <span class="track-duration">{{ formatDuration(track.duration_ms) }}</span>
+            <button class="options-btn" title="Más opciones">
+              <i class="icon-options">⋮</i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Albums Section -->
+    <div class="albums-section">
+      <h2>Álbumes</h2>
+      
+      <div *ngIf="albums.length === 0" class="no-albums">
+        <p>No se encontraron álbumes</p>
+      </div>
+      
+      <div *ngIf="albums.length > 0" class="albums-grid">
+        <div *ngFor="let album of albums" 
+             class="album-card"
+             (click)="goToAlbumFromList(album)">
+          
+          <div class="album-image-container">
+            <img [src]="album.images?.[1]?.url || '/assets/default-album.png'" 
+                 [alt]="album.name" 
+                 class="album-image">
+            <div class="play-overlay">
+              <button class="play-btn">
+                <i class="icon-play">▶</i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="album-info">
+            <h4 class="album-name">{{ album.name }}</h4>
+            <p class="album-year">{{ album.release_date?.substring(0, 4) }}</p>
+            <p class="album-type">{{ album.album_type | titlecase }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>

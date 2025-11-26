@@ -166,4 +166,175 @@ export class SpotifyService {
       throw error;
     }
   }
+
+  // ========================
+  // MÉTODOS PARA ARTISTAS
+  // ========================
+
+  async getArtist(artistId: string): Promise<any> {
+    try {
+      const token = await this.getValidAccessToken();
+      
+      const response = await fetch(
+        `https://api.spotify.com/v1/artists/${artistId}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      console.log('🎤 Datos del artista obtenidos:', data);
+      return data;
+    } catch (error) {
+      console.error('❌ Error obteniendo artista:', error);
+      throw error;
+    }
+  }
+
+  async getArtistTopTracks(artistId: string, market: string = 'ES'): Promise<any[]> {
+    try {
+      const token = await this.getValidAccessToken();
+      
+      const response = await fetch(
+        `https://api.spotify.com/v1/artists/${artistId}/top-tracks?market=${market}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      console.log('🎵 Top tracks obtenidos:', data.tracks?.length || 0);
+      return data.tracks || [];
+    } catch (error) {
+      console.error('❌ Error obteniendo top tracks:', error);
+      throw error;
+    }
+  }
+
+  async getArtistAlbums(artistId: string, limit: number = 20): Promise<any[]> {
+    try {
+      const token = await this.getValidAccessToken();
+      
+      const response = await fetch(
+        `https://api.spotify.com/v1/artists/${artistId}/albums?include_groups=album,single&market=ES&limit=${limit}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      console.log('💿 Álbumes obtenidos:', data.items?.length || 0);
+      return data.items || [];
+    } catch (error) {
+      console.error('❌ Error obteniendo álbumes del artista:', error);
+      throw error;
+    }
+  }
+
+  // ========================
+  // MÉTODOS PARA ÁLBUMES
+  // ========================
+
+  async getAlbum(albumId: string): Promise<any> {
+    try {
+      const token = await this.getValidAccessToken();
+      
+      const response = await fetch(
+        `https://api.spotify.com/v1/albums/${albumId}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      console.log('💿 Datos del álbum obtenidos:', data);
+      return data;
+    } catch (error) {
+      console.error('❌ Error obteniendo álbum:', error);
+      throw error;
+    }
+  }
+
+  async getAlbumTracks(albumId: string, limit: number = 50): Promise<any[]> {
+    try {
+      const token = await this.getValidAccessToken();
+      
+      const response = await fetch(
+        `https://api.spotify.com/v1/albums/${albumId}/tracks?limit=${limit}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      console.log('🎵 Tracks del álbum obtenidos:', data.items?.length || 0);
+      return data.items || [];
+    } catch (error) {
+      console.error('❌ Error obteniendo tracks del álbum:', error);
+      throw error;
+    }
+  }
+
+  // ========================
+  // MÉTODOS AUXILIARES
+  // ========================
+
+  async searchAll(query: string): Promise<any> {
+    try {
+      const token = await this.getValidAccessToken();
+      
+      const response = await fetch(
+        `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track,album,artist&limit=20`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      return {
+        tracks: data.tracks?.items || [],
+        albums: data.albums?.items || [],
+        artists: data.artists?.items || []
+      };
+    } catch (error) {
+      console.error('❌ Error en búsqueda completa:', error);
+      throw error;
+    }
+  }
 }

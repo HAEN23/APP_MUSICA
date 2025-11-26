@@ -1,3 +1,45 @@
+/* Enlaces clickeables para navegación */
+.track-image {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.track-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 20px rgba(29, 185, 84, 0.4);
+}
+
+.track-name {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.track-name:hover {
+  color: #1db954 !important;
+  text-decoration: underline;
+}
+
+.track-artist {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.track-artist:hover {
+  color: #ffffff !important;
+  text-decoration: underline;
+}
+
+.album-link {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.album-link:hover {
+  color: #1db954 !important;
+  text-decoration: underline;
+}
+
 /* ==============================================
    VISTA DE BÚSQUEDA ESTILO SPOTIFY
    ============================================== */

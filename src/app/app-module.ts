@@ -1,6 +1,7 @@
 import { NgModule, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
@@ -20,6 +21,10 @@ import { Home } from './home/home';
 import { SearchView } from './search-view/search-view';
 import { PlaylistView } from './playlist-view/playlist-view';
 
+// Importar nuevos componentes
+import { ArtistProfileComponent } from './artist-profile/artist-profile';
+import { AlbumDetailComponent } from './album-detail/album-detail';
+
 @NgModule({
   declarations: [
     App,
@@ -33,12 +38,15 @@ import { PlaylistView } from './playlist-view/playlist-view';
     Player,
     Home,
     SearchView,
-    PlaylistView
+    PlaylistView,
+    ArtistProfileComponent,
+    AlbumDetailComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    CommonModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
